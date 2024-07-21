@@ -8,6 +8,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      PULUMI_STACK: ${{secrets.PULUMI_STACK}}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -15,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -33,7 +36,7 @@ jobs:
         uses: pulumi/actions@v5
         with:
           command: up
-          stack-name: ${{ secrets.PULUMI_STACK }}  # Specify your Pulumi stack name here
+          stack-name: ${{ env.PULUMI_STACK }}  # Specify your Pulumi stack name here
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_KEY }}
 

@@ -1,8 +1,9 @@
 name: Pulumi Deploy
+
 on: 
-    workflow_dispatch:
-    pull_request:
-        branches: [main]  
+  workflow_dispatch:
+  pull_request:
+      branches: [main]
 
 jobs:
   deploy:
@@ -22,20 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install pulumi pulumi-aws
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS}}
-          aws-secret-access-key: ${{ secrets.AWS_SEC }}
-          aws-region: us-west-2  # Replace with your region
-
       - name: Set up Pulumi
         uses: pulumi/actions@v5
         with:
           command: up
-          stack-name: ${{ secrets.PULUMI_STACK }}  # Specify your Pulumi stack name here
+          stack-name: ${{ secrets.PULUMI_STACK }}
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_KEY }}
-
-      - name: Pulumi Output
-        run: pulumi stack output
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SEC }}
+          AWS_REGION: us-west-2

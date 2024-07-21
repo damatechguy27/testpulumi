@@ -34,7 +34,7 @@ jobs:
         uses: pulumi/actions@v5
         with:
           command: up
-          stack-name: dev  # Specify your Pulumi stack name here
+          stack-name: ${{ secrets.PULUMI_STACK }}  # Specify your Pulumi stack name here
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_KEY }}
 
